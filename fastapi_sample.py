@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from typing import Dict
 from ray import serve
 import ray
-import flyingcat
 
 api = FastAPI()
 @serve.deployment
