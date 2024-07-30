@@ -2,9 +2,6 @@ from fastapi import FastAPI
 from typing import Dict
 from ray import serve
 import ray
-import subprocess
-def install_dependencies():
-    subprocess.run(["pip", "install", "-r", "requirements.txt"], check=True)
 
 api = FastAPI()
 @serve.deployment
@@ -12,7 +9,6 @@ api = FastAPI()
 class MyModelDeployment:
     def __init__(self):
         self._msg = "WHY"
-        install_dependencies()
 
     @api.get("/")
     def root(self) -> Dict:
