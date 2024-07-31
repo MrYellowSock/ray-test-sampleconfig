@@ -2,11 +2,14 @@ from fastapi import FastAPI
 from typing import Dict
 from ray import serve
 import ray
+import subprocess
+import sys
 
 def install():
-    import subprocess
-    import sys
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r requirements.txt"])
+    return subprocess.check_call([sys.executable, "-m", "pip", "install", "-r requirements.txt"],
+        check=True,
+        capture_output=True,
+        text=True)
 
 api = FastAPI()
 @serve.deployment
@@ -14,8 +17,12 @@ api = FastAPI()
 class MyModelDeployment:
     def __init__(self):
         self._msg = "WHY"
-        install()
-
+        try:
+            result = install()
+            self._msg = result.stdout
+        except subprocess.CalledProcessError as e:
+            self._msg = e.stderr
+        
     @api.get("/")
     def root(self) -> Dict:
         import os
