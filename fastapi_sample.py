@@ -6,9 +6,12 @@ import subprocess
 import sys
 
 def install():
-    return subprocess.check_call([sys.executable, "-m", "pip", "install", "-r requirements.txt"],
+    return  subprocess.run(
+        ['/usr/local/bin/python', '-m', 'pip', 'install', '-r', 'requirements.txt'],
+        check=True,
         capture_output=True,
-        text=True)
+        text=True
+    )
 
 api = FastAPI()
 @serve.deployment
