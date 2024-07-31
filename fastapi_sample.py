@@ -3,12 +3,18 @@ from typing import Dict
 from ray import serve
 import ray
 
+def install():
+    import subprocess
+    import sys
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r requirements.txt"])
+
 api = FastAPI()
 @serve.deployment
 @serve.ingress(api)
 class MyModelDeployment:
     def __init__(self):
         self._msg = "WHY"
+        install()
 
     @api.get("/")
     def root(self) -> Dict:
