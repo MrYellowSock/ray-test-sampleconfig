@@ -5,25 +5,12 @@ import ray
 import subprocess
 import sys
 
-def install():
-    return  subprocess.run(
-        ['python', '-m', 'pip', 'install', '-r', 'requirements.txt'],
-        check=True,
-        capture_output=True,
-        text=True
-    )
-
 api = FastAPI()
 @serve.deployment
 @serve.ingress(api)
 class MyModelDeployment:
     def __init__(self):
         self._msg = "WHY"
-        try:
-            result = install()
-            self._msg = result.stdout
-        except subprocess.CalledProcessError as e:
-            self._msg = e.stderr
         
     @api.get("/")
     def root(self) -> Dict:
