@@ -14,7 +14,8 @@ class MyModelDeployment:
     def root(self) -> Dict:
         import os
         import pandas as pd
-        return {"result": self._msg, "hostname": os.uname()[1], "pd_version":pd.__version__}
+        current_file_location = os.path.abspath(__file__)
+        return {"result": self._msg, "hostname": os.uname()[1], "pd_version":pd.__version__, "current_file_location":current_file_location}
 
     @api.post("/ping")
     def ping(self,name:str) -> Dict:
