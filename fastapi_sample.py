@@ -7,7 +7,6 @@ import sys
 
 def install():
     return subprocess.check_call([sys.executable, "-m", "pip", "install", "-r requirements.txt"],
-        check=True,
         capture_output=True,
         text=True)
 
