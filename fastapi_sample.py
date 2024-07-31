@@ -7,7 +7,7 @@ import sys
 
 def install():
     return  subprocess.run(
-        ['/usr/local/bin/python', '-m', 'pip', 'install', '-r', 'requirements.txt'],
+        ['python', '-m', 'pip', 'install', '-r', 'requirements.txt'],
         check=True,
         capture_output=True,
         text=True
