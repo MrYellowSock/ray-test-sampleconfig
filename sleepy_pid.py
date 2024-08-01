@@ -11,6 +11,6 @@ class SleepyPid:
     
     def __call__(self) -> int:
         import os
-        return os.getpid()
+        return f"PID: {os.getpid()}"
 
 app = SleepyPid.bind()
