@@ -1,2 +1,2 @@
-pandas==2.1.4
+pandas==2.1.6
 emoji==2.12.1
