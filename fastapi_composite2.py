@@ -6,23 +6,23 @@ from ray.serve.handle import DeploymentHandle, DeploymentResponse
 app = FastAPI()
 
 @serve.deployment
-@serve.ingress(app)
+# @serve.ingress(app)
 class Adder:
     def __init__(self, increment: int):
         self._increment = increment
 
-    @app.get("/add/{val}")
+    # @app.get("/add/{val}")
     def add(self, val: int) -> int:
         return val + self._increment
 
 
 @serve.deployment
-@serve.ingress(app)
+# @serve.ingress(app)
 class Multiplier:
     def __init__(self, multiple: int):
         self._multiple = multiple
     
-    @app.get("/mult/{val}")
+    # @app.get("/mult/{val}")
     def mult(self, val: int) -> int:
         return val * self._multiple
 
