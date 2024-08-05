@@ -1,4 +1,3 @@
-# File name: chain.py
 from ray import serve
 from ray.serve.handle import DeploymentHandle, DeploymentResponse
 
@@ -28,12 +27,9 @@ class Ingress:
         self._multiplier = multiplier
 
     async def __call__(self, input: int) -> int:
-        adder_response: DeploymentResponse = await self._adder.remote(input)
-        # Pass the adder response directly into the multipler (no `await` needed).
-        multiplier_response: DeploymentResponse = await self._multiplier.remote(
-            adder_response
-        )
-        # `await` the final chained response.
+        adder_response = await self._adder.remote(input)
+        adder_result = await adder_response
+        multiplier_response = await self._multiplier.remote(adder_result)
         return await multiplier_response
 
 
