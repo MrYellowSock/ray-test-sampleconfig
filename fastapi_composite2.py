@@ -12,7 +12,10 @@ class Adder:
         self._increment = increment
 
     # @app.get("/add/{val}")
-    def add(self, val: int) -> int:
+    # def add(self, val: int) -> int:
+        # return val + self._increment
+    
+    def __call__(self, val: int) -> int:
         return val + self._increment
 
 
@@ -23,7 +26,9 @@ class Multiplier:
         self._multiple = multiple
     
     # @app.get("/mult/{val}")
-    def mult(self, val: int) -> int:
+    # def mult(self, val: int) -> int:
+        # return val * self._multiple
+    def __call__(self, val: int) -> int:
         return val * self._multiple
 
 
@@ -36,10 +41,10 @@ class Ingress:
 
     @app.get("/process/{input}")
     async def process(self, input: int) -> int:
-        adder_response: DeploymentResponse = self._adder.add(input)
-        # Pass the adder response directly into the multipler (no `await` needed).
-        multiplier_response: DeploymentResponse = self._multiplier.mult(adder_response)
-        # `await` the final chained response.
+        # adder_response: DeploymentResponse = self._adder.add(input)
+        adder_response: DeploymentResponse = self._adder.remote(input)
+        # multiplier_response: DeploymentResponse = self._multiplier.mult(adder_response)
+        multiplier_response: DeploymentResponse = self._multiplier.remote(adder_response)
         return await multiplier_response
 
 adder = Adder.bind(increment=1)
