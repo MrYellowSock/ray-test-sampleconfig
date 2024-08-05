@@ -28,9 +28,9 @@ class Ingress:
         self._multiplier = multiplier
 
     async def __call__(self, input: int) -> int:
-        adder_response: DeploymentResponse = self._adder.remote(input)
+        adder_response: DeploymentResponse = await self._adder.remote(input)
         # Pass the adder response directly into the multipler (no `await` needed).
-        multiplier_response: DeploymentResponse = self._multiplier.remote(
+        multiplier_response: DeploymentResponse = await self._multiplier.remote(
             adder_response
         )
         # `await` the final chained response.
