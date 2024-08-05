@@ -38,6 +38,7 @@ class Ingress:
 
 ## WE ADD THIS PART ##
 @serve.deployment
+@serve.ingress(app)
 class IngressFastAPI:
     def __init__(self, ingress: DeploymentHandle):
         self._ingress = ingress
