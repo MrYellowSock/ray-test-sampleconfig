@@ -1,6 +1,6 @@
+from pydantic import BaseModel
 from ray import serve
 from ray.serve.handle import DeploymentHandle, DeploymentResponse
-
 
 @serve.deployment
 class Adder:
@@ -27,13 +27,12 @@ class Ingress:
         self._multiplier = multiplier
 
     async def __call__(self, input: int) -> int:
-        adder_response = await self._adder.remote(input)
-        adder_result = await adder_response
-        multiplier_response = await self._multiplier.remote(adder_result)
+        adder_response: DeploymentResponse = self._adder.remote(input)
+        # Pass the adder response directly into the multipler (no `await` needed).
+        multiplier_response: DeploymentResponse = self._multiplier.remote(adder_response)
+        # `await` the final chained response.
         return await multiplier_response
 
-
-app = Ingress.bind(
-    Adder.bind(increment=1),
-    Multiplier.bind(multiple=2),
-)
+adder = Adder.bind(increment=1)
+multiplier = Multiplier.bind(multiple=2)
+ingress = Ingress.bind(adder, multiplier)
