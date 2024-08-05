@@ -35,4 +35,4 @@ class Ingress:
 
 adder = Adder.bind(increment=1)
 multiplier = Multiplier.bind(multiple=2)
-ingress = Ingress.bind(adder, multiplier)
+app = Ingress.bind(adder, multiplier)
