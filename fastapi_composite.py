@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from ray import serve
 from ray.serve.handle import DeploymentHandle, DeploymentResponse
 
-app = FastAPI()
+app = FastAPI(root_path="/rayapi")
 
 @serve.deployment
 class Adder:
